@@ -355,7 +355,7 @@ window.Chart = function(context){
 			segmentShowStroke : false,
 			segmentStrokeColor : "#fff",
 			segmentStrokeWidth : 2,
-			squareShowLabels : false,
+			squareShowLabels : true,
 			squareLabel : "<%=value%>",
 			squareFontFamily : "'Arial'",
 			squareFontSize : 12,
