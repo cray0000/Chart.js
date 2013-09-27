@@ -245,6 +245,12 @@ window.Chart = function(context){
 	
 	this.Pie = function(data,options){
 		chart.Pie.defaults = {
+      scaleShowValues: false,
+      scaleValuePaddingX: 35,
+      scaleFontFamily : "'Arial'",
+      scaleFontSize : 12,
+      scaleFontStyle : "normal",
+      scaleFontColor : "#666",
 			segmentShowStroke : true,
 			segmentStrokeColor : "#fff",
 			segmentStrokeWidth : 2,
@@ -264,6 +270,13 @@ window.Chart = function(context){
 	this.Doughnut = function(data,options){
 	
 		chart.Doughnut.defaults = {
+    scaleShowValues: false,
+    scaleValuePaddingX: 35,
+    scaleFontFamily : "'Arial'",
+    scaleFontSize : 12,
+    scaleFontStyle : "normal",
+    scaleFontColor : "#666",
+    //Boolean - Whether we should show a stroke on each segment
 			segmentShowStroke : true,
 			segmentStrokeColor : "#fff",
 			segmentStrokeWidth : 2,
@@ -748,6 +761,22 @@ window.Chart = function(context){
 				ctx.closePath();
 				ctx.fillStyle = data[i].color;
 				ctx.fill();
+
+        if (config.scaleShowValues) {
+          ctx.save()
+          ctx.translate(width / 2, height / 2);
+          ctx.textAlign = 'center';
+          ctx.font = config.scaleFontStyle + ' ' + config.scaleFontSize + 'px ' + config.scaleFontFamily;
+          ctx.textBaselne = 'middle';
+          var a = (cumulativeAngle + cumulativeAngle + segmentAngle) / 2,
+              w = ctx.measureText(data[i].value).width,
+              b = Math.PI / 2 < a && a < Math.PI * 3 / 2;
+          ctx.translate(Math.cos(a) * pieRadius, Math.sin(a) * pieRadius);
+          ctx.rotate(a - (b ? Math.PI : 0));
+          ctx.fillStyle = config.scaleFontColor;
+          ctx.fillText(data[i].value, (b ? 1 : -1) * (w / 2 + config.scaleValuePaddingX), config.scaleFontSize / 2);
+          ctx.restore();
+        }
 				
 				if(config.segmentShowStroke){
 					ctx.lineWidth = config.segmentStrokeWidth;
@@ -795,6 +824,22 @@ window.Chart = function(context){
 				ctx.closePath();
 				ctx.fillStyle = data[i].color;
 				ctx.fill();
+
+      if (config.scaleShowValues) {
+        ctx.save()
+        ctx.translate(width / 2, height / 2);
+        ctx.textAlign = 'center';
+        ctx.font = config.scaleFontStyle + ' ' + config.scaleFontSize + 'px ' + config.scaleFontFamily;
+        ctx.textBaselne = 'middle';
+        var a = (cumulativeAngle + cumulativeAngle + segmentAngle) / 2,
+            w = ctx.measureText(data[i].value).width,
+            b = Math.PI / 2 < a && a < Math.PI * 3 / 2;
+        ctx.translate(Math.cos(a) * doughnutRadius, Math.sin(a) * doughnutRadius);
+        ctx.rotate(a - (b ? Math.PI : 0));
+        ctx.fillStyle = config.scaleFontColor;
+        ctx.fillText(data[i].value, (b ? 1 : -1) * (w / 2 + config.scaleValuePaddingX), config.scaleFontSize / 2);
+        ctx.restore();
+      }
 				
 				if(config.segmentShowStroke){
 					ctx.lineWidth = config.segmentStrokeWidth;
